@@ -26,6 +26,7 @@ public class GameBoardPanel extends JPanel{
     private Cell[][] cells = new Cell[SudokuConstants.GRID_SIZE][SudokuConstants.GRID_SIZE];
     /** It also contains a Sudoku.Puzzle with array numbers and isGiven */
     private Puzzle puzzle = new Puzzle();
+    GameTimer gameTimer = new GameTimer();
 
     private Puzzle.Difficulty currentDifficulty = Puzzle.Difficulty.EASY; // Default difficulty
 
@@ -73,6 +74,7 @@ public class GameBoardPanel extends JPanel{
                 cells[row][col].newGame(puzzle.numbers[row][col], puzzle.isGiven[row][col]);
             }
         }
+        gameTimer.start();
     }
 
     /**
@@ -139,6 +141,7 @@ public class GameBoardPanel extends JPanel{
              *   by calling isSolved(). Put up a congratulation JOptionPane, if so.
              */
             if (isSolved()) {
+                gameTimer.stop();
                 int option = JOptionPane.showConfirmDialog(
                     GameBoardPanel.this,
                     "Congratulations! You've solved the puzzle!\nWould you like to start a new game?",
@@ -149,6 +152,9 @@ public class GameBoardPanel extends JPanel{
                 // If the user chooses "Yes", reset the game
                 if (option == JOptionPane.YES_OPTION) {
                 newGame(); // Restart the game
+                }
+                else{
+                    System.exit(0);
                 }
             }
         }
