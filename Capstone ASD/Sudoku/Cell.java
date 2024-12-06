@@ -54,6 +54,8 @@ public class Cell extends JTextField {
         this.status = status;
     }
 
+    //
+
     /** Reset this cell for a new game, given the puzzle number and isGiven */
     public void newGame(int number, boolean isGiven) {
         this.number = number;
