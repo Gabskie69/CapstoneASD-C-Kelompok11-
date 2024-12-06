@@ -43,10 +43,14 @@ public class SudokuMain extends JFrame {
 
         cp.add(controlPanel, BorderLayout.SOUTH);
 
-        btnNewGame.addActionListener(e -> board.newGame());
+        btnNewGame.addActionListener(e -> {
+            board.newGame();
+            gameTimer.start();
+        });
 
         // Initialize the game board to start the game
         board.newGame();
+        gameTimer.start();
 
         pack();     // Pack the UI components, instead of using setSize()
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // to handle window-closing
