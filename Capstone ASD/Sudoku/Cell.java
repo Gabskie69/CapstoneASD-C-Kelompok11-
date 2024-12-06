@@ -62,6 +62,7 @@ public class Cell extends JTextField {
         status = isGiven ? CellStatus.GIVEN : CellStatus.TO_GUESS;
         paint(Color.RED);    // paint itself
     }
+    //Ini Komen
 
     /** This Sudoku.Cell (JTextField) paints itself based on its status */
     public void paint(Color red) {
