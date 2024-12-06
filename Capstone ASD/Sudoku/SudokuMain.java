@@ -8,6 +8,7 @@ public class SudokuMain extends JFrame {
     // private variables
     GameBoardPanel board = new GameBoardPanel();
     JButton btnNewGame = new JButton("New Game");
+    JComboBox<Puzzle.Difficulty> difficultySelector;
 
     // Constructor
     public SudokuMain() {
@@ -18,6 +19,20 @@ public class SudokuMain extends JFrame {
 
         // Add a button to the south to re-start the game via board.newGame()
         // ......
+        JPanel controlPanel = new JPanel();
+        difficultySelector = new JComboBox<>(Puzzle.Difficulty.values());
+        difficultySelector.addActionListener(e -> {
+            Puzzle.Difficulty selectedDifficulty = (Puzzle.Difficulty) difficultySelector.getSelectedItem();
+            board.setDifficulty(selectedDifficulty);
+        });
+
+        controlPanel.add(new JLabel("Select Difficulty:"));
+        controlPanel.add(difficultySelector);
+        controlPanel.add(btnNewGame);
+
+        cp.add(controlPanel, BorderLayout.SOUTH);
+
+        btnNewGame.addActionListener(e -> board.newGame());
 
         // Initialize the game board to start the game
         board.newGame();
@@ -35,5 +50,6 @@ public class SudokuMain extends JFrame {
         // .........
         System.out.println("Sudoku coy!");
         SudokuMain game = new SudokuMain();
+        SwingUtilities.invokeLater(SudokuMain::new);
     }
 }

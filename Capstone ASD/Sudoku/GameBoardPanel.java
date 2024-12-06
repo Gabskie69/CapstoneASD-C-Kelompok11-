@@ -18,6 +18,8 @@ public class GameBoardPanel extends JPanel{
     /** It also contains a Sudoku.Puzzle with array numbers and isGiven */
     private Puzzle puzzle = new Puzzle();
 
+    private Puzzle.Difficulty currentDifficulty = Puzzle.Difficulty.EASY; // Default difficulty
+
     /** Constructor */
     public GameBoardPanel() {
         super.setLayout(new GridLayout(SudokuConstants.GRID_SIZE, SudokuConstants.GRID_SIZE));  // JPanel
@@ -29,6 +31,7 @@ public class GameBoardPanel extends JPanel{
                 super.add(cells[row][col]);   // JPanel
             }
         }
+        super.setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
 
         // [TODO 3] Allocate a common listener as the ActionEvent listener for all the
         //  Cells (JTextFields)
@@ -42,8 +45,9 @@ public class GameBoardPanel extends JPanel{
                 }
             }
         }
-
-        super.setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
+    }
+    public void setDifficulty(Puzzle.Difficulty difficulty) {
+        this.currentDifficulty = difficulty;
     }
 
     /**
@@ -52,7 +56,7 @@ public class GameBoardPanel extends JPanel{
      */
     public void newGame() {
         // Generate a new puzzle
-        puzzle.newPuzzle(2);
+        puzzle.newPuzzle(currentDifficulty);
 
         // Initialize all the 9x9 cells, based on the puzzle.
         for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
@@ -114,10 +118,12 @@ public class GameBoardPanel extends JPanel{
              */
             if (numberIn == sourceCell.number) {
                sourceCell.status = CellStatus.CORRECT_GUESS;
+               sourceCell.paint(Cell.BG_CORRECT_GUESS);
             } else {
+                sourceCell.status = CellStatus.WRONG_GUESS;
                sourceCell.paint(Color.RED);
             }// re-paint this cell based on its status
-
+            sourceCell.paint(Color.red);
             /*
              * [TODO 6] (later)
              * Check if the player has solved the puzzle after this move,
