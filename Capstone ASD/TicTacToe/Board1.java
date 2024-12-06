@@ -27,6 +27,8 @@ public class Board {  // save as "Board.java"
         }
     }
 
+    //
+
     /** Reset the contents of the game board, ready for new game. */
     public void newGame() {
         for (int row = 0; row < ROWS; ++row) {
