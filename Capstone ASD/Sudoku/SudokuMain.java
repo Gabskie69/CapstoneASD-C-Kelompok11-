@@ -1,3 +1,12 @@
+/**
+ * ES234317-Algorithm and Data Structures
+ * Semester Ganjil, 2024/2025
+ * Group Capstone Project
+ * Group #11
+ * 1 - 5026231036 - Shafly Hidayatullah
+ * 2 - 5026231071 - Aryabima Kurnia Pratama Santoso
+ * 3 - 5026231189 - Gabriel Hadi Melvanto Sihaloho
+ */
 package Sudoku;
 
 import java.awt.*;
@@ -8,6 +17,7 @@ public class SudokuMain extends JFrame {
     // private variables
     GameBoardPanel board = new GameBoardPanel();
     JButton btnNewGame = new JButton("New Game");
+    GameTimer gameTimer = new GameTimer();
     JComboBox<Puzzle.Difficulty> difficultySelector;
 
     // Constructor
@@ -26,6 +36,7 @@ public class SudokuMain extends JFrame {
             board.setDifficulty(selectedDifficulty);
         });
 
+        controlPanel.add(gameTimer);
         controlPanel.add(new JLabel("Select Difficulty:"));
         controlPanel.add(difficultySelector);
         controlPanel.add(btnNewGame);
