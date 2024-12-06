@@ -8,6 +8,7 @@ public class SudokuMain extends JFrame {
     // private variables
     GameBoardPanel board = new GameBoardPanel();
     JButton btnNewGame = new JButton("New Game");
+    GameTimer gameTimer = new GameTimer();
     JComboBox<Puzzle.Difficulty> difficultySelector;
 
     // Constructor
@@ -26,6 +27,7 @@ public class SudokuMain extends JFrame {
             board.setDifficulty(selectedDifficulty);
         });
 
+        controlPanel.add(gameTimer);
         controlPanel.add(new JLabel("Select Difficulty:"));
         controlPanel.add(difficultySelector);
         controlPanel.add(btnNewGame);
