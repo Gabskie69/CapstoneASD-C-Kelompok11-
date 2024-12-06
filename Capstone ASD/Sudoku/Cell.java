@@ -23,7 +23,7 @@ public class Cell extends JTextField {
     int number;
     /** The status of this cell defined in enum Sudoku.CellStatus */
     CellStatus status;
-
+    //INi komen
     /** Constructor */
     public Cell(int row, int col) {
         super();   // JTextField
