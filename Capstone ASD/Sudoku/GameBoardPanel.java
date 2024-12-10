@@ -12,11 +12,13 @@ public class GameBoardPanel extends JPanel{
     public static final int BOARD_HEIGHT = CELL_SIZE * SudokuConstants.GRID_SIZE;
     // Board width/height in pixels
 
+    private long startTime;
+    private long endTime;
     // Define properties
     /** The game board composes of 9x9 Cells (customized JTextFields) */
     private Cell[][] cells = new Cell[SudokuConstants.GRID_SIZE][SudokuConstants.GRID_SIZE];
     /** It also contains a Sudoku.Puzzle with array numbers and isGiven */
-    private Puzzle puzzle = new Puzzle();
+    public Puzzle puzzle = new Puzzle();
 
     /** Constructor */
     public GameBoardPanel() {
@@ -51,10 +53,13 @@ public class GameBoardPanel extends JPanel{
      * You can call this method to start a new game.
      */
     public void newGame() {
-        // Generate a new puzzle
-        puzzle.newPuzzle(2);
+        // Misalnya, kita ingin 30 sel kosong
+        int cellsToGuess = 13;
+        puzzle.newPuzzle(cellsToGuess);
+        startTime = System.currentTimeMillis(); // Catat waktu mulai
+        repaint();
 
-        // Initialize all the 9x9 cells, based on the puzzle.
+        // Reset semua 9x9 sel berdasarkan puzzle baru
         for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
             for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
                 cells[row][col].newGame(puzzle.numbers[row][col], puzzle.isGiven[row][col]);
@@ -96,7 +101,6 @@ public class GameBoardPanel extends JPanel{
 
     // [TODO 2] Define a Listener Inner Class for all the editable Cells
     private class CellInputListener implements ActionListener {
-        @Override
         public void actionPerformed(ActionEvent e) {
             // Get a reference of the JTextField that triggers this action event
             Cell sourceCell = (Cell)e.getSource();
@@ -123,17 +127,31 @@ public class GameBoardPanel extends JPanel{
              * Check if the player has solved the puzzle after this move,
              *   by calling isSolved(). Put up a congratulation JOptionPane, if so.
              */
+
             if (isSolved()) {
+                endTime = System.currentTimeMillis(); // Catat waktu selesai
+                long elapsedTime = endTime - startTime; // Hitung waktu yang berlalu (dalam ms)
+
+                // Konversi ke format menit:detik
+                long seconds = (elapsedTime / 1000) % 60;
+                long minutes = (elapsedTime / 1000) / 60;
+
+                ImageIcon iconWin = new ImageIcon("C:\\Users\\Aryabima\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\iconwin.png");
                 int option = JOptionPane.showConfirmDialog(
-                    GameBoardPanel.this,
-                    "Congratulations! You've solved the puzzle!\nWould you like to start a new game?",
-                    "Sudoku.Puzzle Solved!",
-                    JOptionPane.YES_NO_OPTION
+                        GameBoardPanel.this,
+                        String.format(
+                                "Congratulations! You've solved the puzzle in %d minutes and %d seconds!\nWould you like to start a new game?",
+                                minutes, seconds
+                        ),
+                        "Sudoku Puzzle Solved",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE,
+                        iconWin
                 );
 
-                // If the user chooses "Yes", reset the game
+                // Jika pemain memilih "Yes", mulai game baru
                 if (option == JOptionPane.YES_OPTION) {
-                newGame(); // Restart the game
+                    newGame(); // Restart the game
                 }
             }
         }

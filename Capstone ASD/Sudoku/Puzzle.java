@@ -7,10 +7,39 @@ public class Puzzle {
     boolean[][] isGiven = new boolean[GRID_SIZE][GRID_SIZE];
 
     public void newPuzzle(int cellsToGuess) {
-        generateSolvedGrid();
-        randomizeGrid();
-        randomizeNumbers();
-        createBlanks(cellsToGuess);
+        int[][] hardcodedNumbers = {
+                {5, 3, 4, 6, 7, 8, 9, 1, 2},
+                {6, 7, 2, 1, 9, 5, 3, 4, 8},
+                {1, 9, 8, 3, 4, 2, 5, 6, 7},
+                {8, 5, 9, 7, 6, 1, 4, 2, 3},
+                {4, 2, 6, 8, 5, 3, 7, 9, 1},
+                {7, 1, 3, 9, 2, 4, 8, 5, 6},
+                {9, 6, 1, 5, 3, 7, 2, 8, 4},
+                {2, 8, 7, 4, 1, 9, 6, 3, 5},
+                {3, 4, 5, 2, 8, 6, 1, 7, 9}
+        };
+
+        // Copy numbers to puzzle
+        for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
+            for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
+                numbers[row][col] = hardcodedNumbers[row][col];
+                isGiven[row][col] = true; // Initially, all cells are given
+            }
+        }
+
+        // Randomly select cells to make them "not given"
+        Random rand = new Random();
+        int removedCells = 0;
+
+        while (removedCells < cellsToGuess) {
+            int row = rand.nextInt(SudokuConstants.GRID_SIZE);
+            int col = rand.nextInt(SudokuConstants.GRID_SIZE);
+
+            if (isGiven[row][col]) { // Only remove if the cell is currently "given"
+                isGiven[row][col] = false;
+                removedCells++;
+            }
+        }
     }
 
     // Generate a solved Sudoku grid
@@ -117,5 +146,42 @@ public class Puzzle {
                 blanks++;
             }
         }
+    }
+
+    // Validate if a number can be placed at a given position
+    public boolean isValidPlacement(int row, int col, int num) {
+        // Check if the number already exists in the row or column
+        for (int i = 0; i < GRID_SIZE; i++) {
+            if (numbers[row][i] == num || numbers[i][col] == num) {
+                return false;
+            }
+        }
+
+        // Check if the number exists in the 3x3 subgrid
+        int startRow = row - row % 3;
+        int startCol = col - col % 3;
+        for (int i = startRow; i < startRow + 3; i++) {
+            for (int j = startCol; j < startCol + 3; j++) {
+                if (numbers[i][j] == num) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    // Generate a Sudoku grid
+    public boolean generateSudokuGrid() {
+        Random rand = new Random();
+        int row = rand.nextInt(GRID_SIZE);
+        int col = rand.nextInt(GRID_SIZE);
+        int num = rand.nextInt(9) + 1;
+
+        // Try placing a number and check if it's valid
+        if (isValidPlacement(row, col, num)) {
+            numbers[row][col] = num;
+            return true;
+        }
+        return false;
     }
 }
