@@ -43,6 +43,7 @@ public class GameBoardPanel extends JPanel{
         }
         super.setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
 
+        //Ini gk jelas
         // [TODO 3] Allocate a common listener as the ActionEvent listener for all the
         //  Cells (JTextFields)
         CellInputListener listener = new CellInputListener();
