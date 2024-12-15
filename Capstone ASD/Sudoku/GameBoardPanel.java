@@ -128,11 +128,11 @@ public class GameBoardPanel extends JPanel{
              * and re-paint the cell via sourceCell.paint().
              */
             if (numberIn == sourceCell.number) {
-               sourceCell.status = CellStatus.CORRECT_GUESS;
-               sourceCell.paint(Cell.BG_CORRECT_GUESS);
+                sourceCell.status = CellStatus.CORRECT_GUESS;
+                sourceCell.paint(Cell.BG_CORRECT_GUESS);
             } else {
                 sourceCell.status = CellStatus.WRONG_GUESS;
-               sourceCell.paint(Color.RED);
+                sourceCell.paint(Color.RED);
             }// re-paint this cell based on its status
             sourceCell.paint(Color.red);
             /*
