@@ -1,3 +1,12 @@
+/**
+ * ES234317-Algorithm and Data Structures
+ * Semester Ganjil, 2024/2025
+ * Group Capstone Project
+ * Group #11
+ * 1 - 5026231036 - Shafly Hidayatullah
+ * 2 - 5026231071 - Aryabima Kurnia Pratama Santoso
+ * 3 - 5026231189 - Gabriel Hadi Melvanto Sihaloho
+ */
 package Sudoku;
 import java.util.Random;
 
@@ -100,22 +109,41 @@ public class Puzzle {
         Random rand = new Random();
         int blanks = 0;
 
-        // Initialize all cells as given
+        // Set semua sel sebagai "diberikan" (isGiven = true)
         for (int row = 0; row < GRID_SIZE; row++) {
             for (int col = 0; col < GRID_SIZE; col++) {
                 isGiven[row][col] = true;
             }
         }
 
-        // Randomly make cells blank until reaching the desired number
+        // Kosongkan sel secara acak hingga mencapai jumlah yang diinginkan
         while (blanks < cellsToGuess) {
             int row = rand.nextInt(GRID_SIZE);
             int col = rand.nextInt(GRID_SIZE);
 
-            if (isGiven[row][col]) {
+            if (isGiven[row][col]) { // Hanya proses jika sel belum kosong
                 isGiven[row][col] = false;
                 blanks++;
             }
         }
+    }
+    public enum Difficulty {
+        EASY(9), MEDIUM(12), HARD(15);
+
+        private final int blanks;
+
+        Difficulty(int blanks) {
+            this.blanks = blanks;
+        }
+
+        public int getBlanks() {
+            return blanks;
+        }
+    }
+    public void newPuzzle(Difficulty difficulty) {
+        generateSolvedGrid();
+        randomizeGrid();
+        randomizeNumbers();
+        createBlanks(difficulty.getBlanks());
     }
 }
