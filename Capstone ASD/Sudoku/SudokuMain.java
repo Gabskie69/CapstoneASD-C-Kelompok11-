@@ -9,12 +9,15 @@
  */
 package Sudoku;
 
-import java.awt.*;
+import javax.sound.sampled.*;
 import javax.swing.*;
-public class SudokuMain extends JFrame {
-    private static final long serialVersionUID = 1L;  // to prevent serial warning
+import java.awt.*;
+import java.io.File;
 
-    // private variables
+public class SudokuMain extends JFrame {
+    private static final long serialVersionUID = 1L;
+
+    // Private variables
     GameBoardPanel board = new GameBoardPanel();
     JButton btnNewGame = new JButton("New Game");
     GameTimer gameTimer = new GameTimer();
@@ -27,8 +30,14 @@ public class SudokuMain extends JFrame {
 
         cp.add(board, BorderLayout.CENTER);
 
+<<<<<<< HEAD
+        // Control panel for difficulty selector and new game button
         // Add a button to the south to re-start the game via board.newGame()
         // ......
+=======
+        // Add a button to the south to re-start the game via board.newGame()
+        //......
+>>>>>>> 0e9cc3bd214fce02feda2e9ce1952c5b84781ba1
         JPanel controlPanel = new JPanel();
         difficultySelector = new JComboBox<>(Puzzle.Difficulty.values());
         difficultySelector.addActionListener(e -> {
@@ -43,6 +52,8 @@ public class SudokuMain extends JFrame {
 
         cp.add(controlPanel, BorderLayout.SOUTH);
 
+        // New game button action listener
+        btnNewGame.addActionListener(e -> board.newGame());
         btnNewGame.addActionListener(e -> {
             board.newGame();
             gameTimer.start();
@@ -52,17 +63,54 @@ public class SudokuMain extends JFrame {
         board.newGame();
         gameTimer.start();
 
-        pack();     // Pack the UI components, instead of using setSize()
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // to handle window-closing
+        // Play background music when the game starts
+        playBackgroundMusic("C:\\Users\\FARIS\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\SOUND\\Backsound.wav");
+
+        pack();     // Pack the UI components
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // Window closing behavior
         setTitle("Sudoku");
         setVisible(true);
     }
 
-    /** The entry main() entry method */
+    // Method to play background music
+    private void playBackgroundMusic(String filePath) {
+        try {
+            File audioFile = new File(filePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY); // Loop the background music
+        } catch (Exception ex) {
+            System.out.println("Error playing background music: " + ex.getMessage());
+        }
+    }
+
+    // Method to play the "Win" sound effect
+    public void playWinSound() {
+        playSoundEffect("C:\\Users\\FARIS\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\SOUND\\Menang.wav");
+    }
+
+    // Method to play the "Lose" sound effect
+    public void playLoseSound() {
+        playSoundEffect("C:\\Users\\FARIS\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\SOUND\\Kalah.wav");
+    }
+
+    // Method to play any sound effect (e.g., Win or Lose)
+    private void playSoundEffect(String filePath) {
+        try {
+            File audioFile = new File(filePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();  // Play the sound effect
+        } catch (Exception ex) {
+            System.out.println("Error playing sound effect: " + ex.getMessage());
+        }
+    }
+
+    // Main entry method
     public static void main(String[] args) {
-        // [TODO 1] Check "Swing program template" on how to run
-        //  the constructor of "Sudoku.SudokuMain"
-        // .........
+        // Run the constructor of "Sudoku.SudokuMain"
         System.out.println("Sudoku coy!");
         SudokuMain game = new SudokuMain();
         SwingUtilities.invokeLater(SudokuMain::new);

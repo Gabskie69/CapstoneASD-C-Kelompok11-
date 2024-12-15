@@ -109,6 +109,7 @@ public class Puzzle {
         Random rand = new Random();
         int blanks = 0;
 
+        // Initialize all cells as given
         // Set semua sel sebagai "diberikan" (isGiven = true)
         for (int row = 0; row < GRID_SIZE; row++) {
             for (int col = 0; col < GRID_SIZE; col++) {
@@ -116,14 +117,17 @@ public class Puzzle {
             }
         }
 
+        // Randomly make cells blank until reaching the desired number
         // Kosongkan sel secara acak hingga mencapai jumlah yang diinginkan
         while (blanks < cellsToGuess) {
             int row = rand.nextInt(GRID_SIZE);
             int col = rand.nextInt(GRID_SIZE);
 
+            if (isGiven[row][col]) {
             if (isGiven[row][col]) { // Hanya proses jika sel belum kosong
                 isGiven[row][col] = false;
                 blanks++;
+            }
             }
         }
     }

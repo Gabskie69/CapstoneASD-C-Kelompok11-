@@ -43,6 +43,7 @@ public class GameBoardPanel extends JPanel{
         }
         super.setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
 
+
         //Ini gk jelas
         // [TODO 3] Allocate a common listener as the ActionEvent listener for all the
         //  Cells (JTextFields)
@@ -67,6 +68,7 @@ public class GameBoardPanel extends JPanel{
      */
     public void newGame() {
         // Generate a new puzzle
+        puzzle.newPuzzle(2);
         puzzle.newPuzzle(currentDifficulty);
 
         // Initialize all the 9x9 cells, based on the puzzle.
@@ -131,8 +133,11 @@ public class GameBoardPanel extends JPanel{
             if (numberIn == sourceCell.number) {
                 sourceCell.status = CellStatus.CORRECT_GUESS;
                 sourceCell.paint(Cell.BG_CORRECT_GUESS);
+                sourceCell.status = CellStatus.CORRECT_GUESS;
+                sourceCell.paint(Cell.BG_CORRECT_GUESS);
             } else {
                 sourceCell.status = CellStatus.WRONG_GUESS;
+                sourceCell.paint(Color.RED);
                 sourceCell.paint(Color.RED);
             }// re-paint this cell based on its status
             sourceCell.paint(Color.red);
@@ -144,15 +149,15 @@ public class GameBoardPanel extends JPanel{
             if (isSolved()) {
                 gameTimer.stop();
                 int option = JOptionPane.showConfirmDialog(
-                    GameBoardPanel.this,
-                    "Congratulations! You've solved the puzzle!\nWould you like to start a new game?",
-                    "Sudoku.Puzzle Solved!",
-                    JOptionPane.YES_NO_OPTION
+                        GameBoardPanel.this,
+                        "Congratulations! You've solved the puzzle!\nWould you like to start a new game?",
+                        "Sudoku.Puzzle Solved!",
+                        JOptionPane.YES_NO_OPTION
                 );
 
                 // If the user chooses "Yes", reset the game
                 if (option == JOptionPane.YES_OPTION) {
-                newGame(); // Restart the game
+                    newGame(); // Restart the game
                 }
                 else{
                     System.exit(0);
