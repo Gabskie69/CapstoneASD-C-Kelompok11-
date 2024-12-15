@@ -30,9 +30,14 @@ public class SudokuMain extends JFrame {
 
         cp.add(board, BorderLayout.CENTER);
 
+<<<<<<< HEAD
         // Control panel for difficulty selector and new game button
         // Add a button to the south to re-start the game via board.newGame()
         // ......
+=======
+        // Add a button to the south to re-start the game via board.newGame()
+        //......
+>>>>>>> 0e9cc3bd214fce02feda2e9ce1952c5b84781ba1
         JPanel controlPanel = new JPanel();
         difficultySelector = new JComboBox<>(Puzzle.Difficulty.values());
         difficultySelector.addActionListener(e -> {
@@ -48,6 +53,7 @@ public class SudokuMain extends JFrame {
         cp.add(controlPanel, BorderLayout.SOUTH);
 
         // New game button action listener
+        btnNewGame.addActionListener(e -> board.newGame());
         btnNewGame.addActionListener(e -> {
             board.newGame();
             gameTimer.start();
