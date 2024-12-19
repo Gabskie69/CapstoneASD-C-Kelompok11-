@@ -25,6 +25,7 @@ public class GameMain extends JPanel {
     private Seed currentPlayer;  // the current player
     private JLabel statusBar;    // for displaying status message
     private JLabel logoLabel;    // Label to display logo
+    private GameMode currentMode = GameMode.VS_FRIENDS;
 
     /** Constructor to setup the UI and game components */
     public GameMain() {

@@ -1,88 +1,109 @@
-package Sudoku;
-
-import java.awt.*;
-import javax.swing.*;
-public class SudokuMain extends JFrame {
-    private static final long serialVersionUID = 1L;  // to prevent serial warning
-
-    // private variables
-    GameTimer gameTimer = new GameTimer();
-    GameBoardPanel board = new GameBoardPanel();
-    JButton btnNewGame = new JButton("New Game");
-
-    // Constructor
-    public SudokuMain() {
-        Container cp = getContentPane();
-        cp.setLayout(new BorderLayout());
-
-        cp.add(board, BorderLayout.CENTER);
-
-        // Add a button to the south to re-start the game via board.newGame()
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.add(gameTimer, BorderLayout.WEST);
-        topPanel.add(btnNewGame, BorderLayout.EAST);
-        cp.add(topPanel, BorderLayout.NORTH);
-
-        // Tombol "New Game"
-        btnNewGame.addActionListener(e -> {
-            board.newGame();
-            gameTimer.start(); // Reset dan mulai timer baru
-        });
-
-        // Initialize the game board to start the game
-        board.newGame();
-        gameTimer.start();
-
-        ImageIcon icon = new ImageIcon("C:\\Users\\Aryabima\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\logo.jpg"); // Path ke file gambar
-        setIconImage(icon.getImage()); // Aryabima
-        pack();     // Pack the UI components, instead of using setSize()
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // to handle window-closing
-        setTitle("Always GASDOR Sudoku");
-        setVisible(true);
-    }
-
-    public void createAndShowGUI() {
-        JFrame frame = new JFrame("Sudoku");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 700);
-        frame.setLayout(new BorderLayout());
-
-        // Inisialisasi board
-        board = new GameBoardPanel();
-
-        // Tambahkan dropdown untuk memilih tingkat kesulitan
-        String[] difficulties = {"Easy", "Medium", "Hard"};
-        JComboBox<String> difficultySelector = new JComboBox<>(difficulties);
-        difficultySelector.setSelectedIndex(0); // Default ke "Easy"
-        difficultySelector.addActionListener(e -> {
-            String selectedDifficulty = (String) difficultySelector.getSelectedItem();
-            int cellsToGuess = switch (selectedDifficulty) {
-                case "Easy" -> 20;    // 20 sel kosong
-                case "Medium" -> 40;  // 40 sel kosong
-                case "Hard" -> 60;    // 60 sel kosong
-                default -> 30;        // Default fallback
-            };
-            board.puzzle.newPuzzle(cellsToGuess);
-            board.newGame();
-        });
-
-        // Tambahkan komponen ke frame
-        JPanel topPanel = new JPanel();
-        topPanel.add(new JLabel("Select Difficulty:"));
-        topPanel.add(difficultySelector);
-
-        frame.add(topPanel, BorderLayout.NORTH); // Tambahkan dropdown di atas
-        frame.add(board, BorderLayout.CENTER);  // Tambahkan papan sudoku di tengah
-
-        frame.setVisible(true);
-    }
-
-    /** The entry main() entry method */
-    public static void main(String[] args) {
-        // [TODO 1] Check "Swing program template" on how to run
-        //  the constructor of "Sudoku.SudokuMain"
-        // .........
-        System.out.println("Sudoku coy!");
-        SudokuMain game = new SudokuMain();
-    }
-}
+///**
+// * ES234317-Algorithm and Data Structures
+// * Semester Ganjil, 2024/2025
+// * Group Capstone Project
+// * Group #11
+// * 1 - 5026231036 - Shafly Hidayatullah
+// * 2 - 5026231071 - Aryabima Kurnia Pratama Santoso
+// * 3 - 5026231189 - Gabriel Hadi Melvanto Sihaloho
+// */
+//package Sudoku;
+//
+//import javax.sound.sampled.*;
+//import javax.swing.*;
+//import java.awt.*;
+//import java.io.File;
+//
+//public class SudokuMain extends JFrame {
+//    private static final long serialVersionUID = 1L;
+//
+//    // Private variables
+//    GameBoardPanel board = new GameBoardPanel();
+//    JButton btnNewGame = new JButton("New Game");
+//    GameTimer gameTimer = new GameTimer();
+//    JComboBox<Puzzle.Difficulty> difficultySelector;
+//
+//    // Constructor
+//    public SudokuMain() {
+//        Container cp = getContentPane();
+//        cp.setLayout(new BorderLayout());
+//
+//        cp.add(board, BorderLayout.CENTER);
+//
+//        // Control panel for difficulty selector and new game button
+//        JPanel controlPanel = new JPanel();
+//        difficultySelector = new JComboBox<>(Puzzle.Difficulty.values());
+//        difficultySelector.addActionListener(e -> {
+//            Puzzle.Difficulty selectedDifficulty = (Puzzle.Difficulty) difficultySelector.getSelectedItem();
+//            board.setDifficulty(selectedDifficulty);
+//        });
+//
+//        controlPanel.add(gameTimer);
+//        controlPanel.add(new JLabel("Select Difficulty:"));
+//        controlPanel.add(difficultySelector);
+//        controlPanel.add(btnNewGame);
+//
+//        cp.add(controlPanel, BorderLayout.SOUTH);
+//
+//        // New game button action listener
+//        btnNewGame.addActionListener(e -> {
+//            board.newGame();
+//            gameTimer.start();
+//        });
+//
+//        // Initialize the game board to start the game
+//        board.newGame();
+//        gameTimer.start();
+//
+//        // Play background music when the game starts
+//        playBackgroundMusic("C:\\Users\\FARIS\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\SOUND\\Backsound.wav");
+//
+//        pack();     // Pack the UI components
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // Window closing behavior
+//        setTitle("Sudoku");
+//        setVisible(true);
+//    }
+//
+//    // Method to play background music
+//    private void playBackgroundMusic(String filePath) {
+//        try {
+//            File audioFile = new File(filePath);
+//            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+//            Clip clip = AudioSystem.getClip();
+//            clip.open(audioStream);
+//            clip.loop(Clip.LOOP_CONTINUOUSLY); // Loop the background music
+//        } catch (Exception ex) {
+//            System.out.println("Error playing background music: " + ex.getMessage());
+//        }
+//    }
+//
+//    // Method to play the "Win" sound effect
+//    public void playWinSound() {
+//        playSoundEffect("C:\\Users\\FARIS\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\SOUND\\Menang.wav");
+//    }
+//
+//    // Method to play the "Lose" sound effect
+//    public void playLoseSound() {
+//        playSoundEffect("C:\\Users\\FARIS\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\SOUND\\Kalah.wav");
+//    }
+//
+//    // Method to play any sound effect (e.g., Win or Lose)
+//    private void playSoundEffect(String filePath) {
+//        try {
+//            File audioFile = new File(filePath);
+//            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+//            Clip clip = AudioSystem.getClip();
+//            clip.open(audioStream);
+//            clip.start();  // Play the sound effect
+//        } catch (Exception ex) {
+//            System.out.println("Error playing sound effect: " + ex.getMessage());
+//        }
+//    }
+//
+//    // Main entry method
+//    public static void main(String[] args) {
+//        // Run the constructor of "Sudoku.SudokuMain"
+//        System.out.println("Sudoku coy!");
+//        SwingUtilities.invokeLater(SudokuMain::new);
+//    }
+//}
