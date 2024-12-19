@@ -13,7 +13,7 @@ import java.io.IOException;
  */
 public class GameMain extends JPanel {
     private static final long serialVersionUID = 1L; // to prevent serializable warning
-
+  
     // Define named constants for the drawing graphics
     public static final String TITLE = "Tic Tac Toe";
     public static final Color COLOR_BG = Color.WHITE;
@@ -99,6 +99,7 @@ public class GameMain extends JPanel {
         // Set up Game
         initGame();
         newGame();
+
         // Play background music
         playBackgroundMusic("C:\\Users\\FARIS\\Documents\\CapstoneASD-C-Kelompok11-\\TicTacToe\\TicTacToe\\Backsound TTT.wav");
     }
@@ -189,7 +190,6 @@ public class GameMain extends JPanel {
                 frame.pack();
                 frame.setLocationRelativeTo(null); // center the application window
                 frame.setVisible(true);            // show it
-                
                 // Add window listener to stop music on close
                 frame.addWindowListener(new WindowAdapter() {
                     @Override
