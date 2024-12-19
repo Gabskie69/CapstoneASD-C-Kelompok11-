@@ -132,7 +132,7 @@ public class Puzzle {
         }
     }
     public enum Difficulty {
-        EASY(9), MEDIUM(12), HARD(15);
+        EASY(1), MEDIUM(1), HARD(1);
 
         private final int blanks;
 

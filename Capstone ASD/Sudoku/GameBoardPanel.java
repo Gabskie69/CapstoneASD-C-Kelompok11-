@@ -11,6 +11,11 @@ package Sudoku;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.*;
 import javax.swing.*;
 public class GameBoardPanel extends JPanel{
     private static final long serialVersionUID = 1L;  // to prevent serial warning
@@ -27,11 +32,14 @@ public class GameBoardPanel extends JPanel{
     /** It also contains a Sudoku.Puzzle with array numbers and isGiven */
     private Puzzle puzzle = new Puzzle();
     GameTimer gameTimer = new GameTimer();
+    Sound sound = new Sound();
 
     private Puzzle.Difficulty currentDifficulty = Puzzle.Difficulty.EASY; // Default difficulty
 
+    private SudokuMain mainFrame;
     /** Constructor */
-    public GameBoardPanel() {
+    public GameBoardPanel(SudokuMain mainFrame) {
+        this.mainFrame = mainFrame;
         super.setLayout(new GridLayout(SudokuConstants.GRID_SIZE, SudokuConstants.GRID_SIZE));  // JPanel
 
         // Allocate the 2D array of Sudoku.Cell, and added into JPanel.
@@ -68,8 +76,10 @@ public class GameBoardPanel extends JPanel{
      */
     public void newGame() {
         // Generate a new puzzle
+        sound.stopBackgroundMusic();
         puzzle.newPuzzle(2);
         puzzle.newPuzzle(currentDifficulty);
+
 
         // Initialize all the 9x9 cells, based on the puzzle.
         for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
@@ -78,6 +88,7 @@ public class GameBoardPanel extends JPanel{
             }
         }
         gameTimer.start();
+//        sound.playBackgroundMusic("C:\\Users\\Gabe's Laptop\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\Backsound.wav");
     }
 
     /**
@@ -88,23 +99,6 @@ public class GameBoardPanel extends JPanel{
         for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
             for (int col = 0; col < SudokuConstants.GRID_SIZE; ++col) {
                 if (cells[row][col].status == CellStatus.TO_GUESS || cells[row][col].status == CellStatus.WRONG_GUESS) {
-//                    File file = new File("open-new-level-143027.wav");
-//                    AudioInputStream audioStream = null;
-//                    try {
-//                        audioStream = AudioSystem.getAudioInputStream(file);
-//                    } catch (UnsupportedAudioFileException e) {
-//                        throw new RuntimeException(e);
-//                    } catch (IOException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                    Clip clip = null;
-//                    try {
-//                        clip = AudioSystem.getClip();
-//                    } catch (LineUnavailableException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                    clip.open(audioStream);
-//                    clip.start();
                     return false;
                 }
             }
@@ -112,8 +106,9 @@ public class GameBoardPanel extends JPanel{
         return true;
     }
 
+
     // [TODO 2] Define a Listener Inner Class for all the editable Cells
-    private class CellInputListener implements ActionListener {
+    public class CellInputListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             // Get a reference of the JTextField that triggers this action event
@@ -147,17 +142,52 @@ public class GameBoardPanel extends JPanel{
              *   by calling isSolved(). Put up a congratulation JOptionPane, if so.
              */
             if (isSolved()) {
-                gameTimer.stop();
+                mainFrame.sound.stopBackgroundMusic();
+                mainFrame.gameTimer.stop();
+                mainFrame.sound.playSoundEffect("C:\\Users\\Gabe's Laptop\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\Menang.wav");
+//                File file = new File("C:\\Users\\Gabe's Laptop\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\Menang.wav");
+//                AudioInputStream audioStream =null;
+//                try {
+//                    audioStream = AudioSystem.getAudioInputStream(file);
+//                } catch (UnsupportedAudioFileException f) {
+//                    throw new RuntimeException(f);
+//                } catch (IOException f){
+//                    throw new RuntimeException(f);
+//                }
+//                Clip clip = null;
+//                try{
+//                    clip =AudioSystem.getClip();
+//                }catch(LineUnavailableException f){
+//                    throw new RuntimeException(f);
+//                }
+//                try {
+//                    clip.open(audioStream);
+//                } catch (LineUnavailableException ex) {
+//                    throw new RuntimeException(ex);
+//                } catch (IOException ex) {
+//                    throw new RuntimeException(ex);
+//                }
+//                clip.start();
+//                mainFrame.playSoundEffect("C:\\Users\\Gabe's Laptop\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\Menang.wav");
                 int option = JOptionPane.showConfirmDialog(
                         GameBoardPanel.this,
                         "Congratulations! You've solved the puzzle!\nWould you like to start a new game?",
                         "Sudoku.Puzzle Solved!",
                         JOptionPane.YES_NO_OPTION
+
                 );
+
+//                // Method to play the "Lose" sound effect
+//                public void playLoseSound() {
+//                    playSoundEffect("C:/Users/Gabe's Laptop/Downloads/Kalah.wav");
+//                }
 
                 // If the user chooses "Yes", reset the game
                 if (option == JOptionPane.YES_OPTION) {
+                    sound.stopBackgroundMusic();
                     newGame(); // Restart the game
+                    mainFrame.gameTimer.start();
+                    sound.playBackgroundMusic("C:\\Users\\Gabe's Laptop\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\Backsound.wav");
                 }
                 else{
                     System.exit(0);
