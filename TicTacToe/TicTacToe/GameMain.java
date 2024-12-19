@@ -3,6 +3,9 @@ package TicTacToe;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Tic-Tac-Toe: Two-player Graphic version with better OO design.
@@ -25,6 +28,10 @@ public class GameMain extends JPanel {
     private Seed currentPlayer;  // the current player
     private JLabel statusBar;    // for displaying status message
     private JLabel logoLabel;    // Label to display logo
+    private boolean vsComputer = true; // Flag for playing against computer
+
+    // Attribute for background music
+    private Clip backgroundClip;
     private GameMode currentMode = GameMode.VS_FRIENDS;
 
     /** Constructor to setup the UI and game components */
@@ -50,8 +57,14 @@ public class GameMain extends JPanel {
                         } else {
                             SoundEffect.EXPLODE.play();
                         }
-                        // Switch player
-                        currentPlayer = (currentPlayer == Seed.CROSS) ? Seed.NOUGHT : Seed.CROSS;
+                        repaint();
+
+                        if (currentState == State.PLAYING && vsComputer && currentPlayer == Seed.CROSS) {
+                            computerMove(); // Computer makes its move
+                        } else {
+                            // Switch player
+                            currentPlayer = (currentPlayer == Seed.CROSS) ? Seed.NOUGHT : Seed.CROSS;
+                        }
                     }
                 } else {
                     SoundEffect.EXPLODE.play();       // game over
@@ -86,6 +99,8 @@ public class GameMain extends JPanel {
         // Set up Game
         initGame();
         newGame();
+        // Play background music
+        playBackgroundMusic("C:\\Users\\FARIS\\Documents\\CapstoneASD-C-Kelompok11-\\TicTacToe\\TicTacToe\\Backsound TTT.wav");
     }
 
     /** Initialize the game (run once) */
@@ -102,6 +117,40 @@ public class GameMain extends JPanel {
         }
         currentPlayer = Seed.CROSS;    // cross plays first
         currentState = State.PLAYING;  // ready to play
+    }
+
+    /** Play background music */
+    private void playBackgroundMusic(String fileName) {
+        try {
+            File audioFile = new File(fileName);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            backgroundClip = AudioSystem.getClip();
+            backgroundClip.open(audioStream);
+            backgroundClip.loop(Clip.LOOP_CONTINUOUSLY); // Loop the music
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /** Stop background music */
+    private void stopBackgroundMusic() {
+        if (backgroundClip != null && backgroundClip.isRunning()) {
+            backgroundClip.stop();
+            backgroundClip.close();
+        }
+    }
+
+    /** Computer makes a move */
+    private void computerMove() {
+        for (int row = 0; row < Board.ROWS; ++row) {
+            for (int col = 0; col < Board.COLS; ++col) {
+                if (board.cells[row][col].content == Seed.NO_SEED) {
+                    currentState = board.stepGame(Seed.NOUGHT, row, col);
+                    currentPlayer = Seed.CROSS;
+                    return;
+                }
+            }
+        }
     }
 
     /** Custom painting codes on this JPanel */
@@ -140,6 +189,15 @@ public class GameMain extends JPanel {
                 frame.pack();
                 frame.setLocationRelativeTo(null); // center the application window
                 frame.setVisible(true);            // show it
+                
+                // Add window listener to stop music on close
+                frame.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        ((GameMain) frame.getContentPane()).stopBackgroundMusic();
+                        System.exit(0);
+                    }
+                });
             }
         });
     }
