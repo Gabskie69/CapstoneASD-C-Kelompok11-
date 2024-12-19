@@ -196,6 +196,7 @@ public class GameMain extends JPanel {
                     public void windowClosing(WindowEvent e) {
                         ((GameMain) frame.getContentPane()).stopBackgroundMusic();
                         System.exit(0);
+                        //ini komen
                     }
                 });
             }
