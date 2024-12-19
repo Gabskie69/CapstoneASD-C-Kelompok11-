@@ -1,12 +1,12 @@
 /**
- * ES234317-Algorithm and Data Structures
- * Semester Ganjil, 2024/2025
- * Group Capstone Project
- * Group #11
- * 1 - 5026231036 - Shafly Hidayatullah
- * 2 - 5026231071 - Aryabima Kurnia Pratama Santoso
- * 3 - 5026231189 - Gabriel Hadi Melvanto Sihaloho
- */
+* ES234317-Algorithm and Data Structures
+* Semester Ganjil, 2024/2025
+* Group Capstone Project
+* Group #11
+* 1 - 5026231036 - Shafly Hidayatullah
+* 2 - 5026231071 - Aryabima Kurnia Pratama Santoso
+* 3 - 5026231189 - Gabriel Hadi Melvanto Sihaloho
+*/
 package Sudoku;
 
 import java.awt.*;
@@ -18,6 +18,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.*;
 import javax.swing.*;
 public class GameBoardPanel extends JPanel{
+  
     private static final long serialVersionUID = 1L;  // to prevent serial warning
 
     // Define named constants for UI sizes
