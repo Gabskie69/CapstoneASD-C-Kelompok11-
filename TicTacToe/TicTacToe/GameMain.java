@@ -27,6 +27,8 @@ public class GameMain extends JPanel {
     private JLabel logoLabel;    // Label to display logo
 
     /** Constructor to setup the UI and game components */
+    private GameMode currentMode = GameMode.VS_FRIENDS;
+
     public GameMain() {
         // This JPanel fires MouseEvent
         super.addMouseListener(new MouseAdapter() {
