@@ -12,98 +12,124 @@ package Sudoku;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 public class SudokuMain extends JFrame {
-   private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-   // Private variables
-   GameBoardPanel board = new GameBoardPanel();
-   JButton btnNewGame = new JButton("New Game");
-   GameTimer gameTimer = new GameTimer();
-   JComboBox<Puzzle.Difficulty> difficultySelector;
+    // Private variables
+    GameBoardPanel board = new GameBoardPanel(this);
+    JButton btnNewGame = new JButton("New Game");
+    GameTimer gameTimer = new GameTimer();
+    JComboBox<Puzzle.Difficulty> difficultySelector;
+    Sound sound = new Sound();
+    public Clip clip;
 
-   // Constructor
-   public SudokuMain() {
-       Container cp = getContentPane();
-       cp.setLayout(new BorderLayout());
+    // Constructor
+    public SudokuMain() throws LineUnavailableException, IOException {
+        Container cp = getContentPane();
+        cp.setLayout(new BorderLayout());
 
-       cp.add(board, BorderLayout.CENTER);
+        cp.add(board, BorderLayout.CENTER);
 
-       // Control panel for difficulty selector and new game button
-       JPanel controlPanel = new JPanel();
-       difficultySelector = new JComboBox<>(Puzzle.Difficulty.values());
-       difficultySelector.addActionListener(e -> {
-           Puzzle.Difficulty selectedDifficulty = (Puzzle.Difficulty) difficultySelector.getSelectedItem();
-           board.setDifficulty(selectedDifficulty);
-       });
+        // Control panel for difficulty selector and new game button
+        // Add a button to the south to re-start the game via board.newGame()
+        // ......
+        JPanel controlPanel = new JPanel();
+        difficultySelector = new JComboBox<>(Puzzle.Difficulty.values());
+        difficultySelector.addActionListener(e -> {
+            Puzzle.Difficulty selectedDifficulty = (Puzzle.Difficulty) difficultySelector.getSelectedItem();
+            board.setDifficulty(selectedDifficulty);
+        });
 
-       controlPanel.add(gameTimer);
-       controlPanel.add(new JLabel("Select Difficulty:"));
-       controlPanel.add(difficultySelector);
-       controlPanel.add(btnNewGame);
+        controlPanel.add(gameTimer);
+        controlPanel.add(new JLabel("Select Difficulty:"));
+        controlPanel.add(difficultySelector);
+        controlPanel.add(btnNewGame);
 
-       cp.add(controlPanel, BorderLayout.SOUTH);
+        cp.add(controlPanel, BorderLayout.SOUTH);
 
-       // New game button action listener
-       btnNewGame.addActionListener(e -> {
-           board.newGame();
-           gameTimer.start();
-       });
+        // New game button action listener
+        btnNewGame.addActionListener(e -> board.newGame());
+        btnNewGame.addActionListener(e -> {
+            board.newGame();
+            gameTimer.start();
+        });
 
-       // Initialize the game board to start the game
-       board.newGame();
-       gameTimer.start();
+        // Initialize the game board to start the game
+        board.newGame();
+        gameTimer.start();
+        sound.playBackgroundMusic("C:\\Users\\Gabe's Laptop\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\Backsound.wav");
 
-       // Play background music when the game starts
-       playBackgroundMusic("C:\\Users\\FARIS\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\SOUND\\Backsound.wav");
+//        // Play background music when the game starts
+//        File file = new File("C:\\Users\\Gabe's Laptop\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\Backsound.wav");
+//        AudioInputStream audioStream =null;
+//        try {
+//            audioStream = AudioSystem.getAudioInputStream(file);
+//        } catch (UnsupportedAudioFileException e) {
+//            throw new RuntimeException(e);
+//        } catch (IOException e){
+//            throw new RuntimeException(e);
+//        }
+//        Clip clip = null;
+//        try{
+//            clip =AudioSystem.getClip();
+//        }catch(LineUnavailableException e){
+//            throw new RuntimeException(e);
+//        }
+//        clip.open(audioStream);
+//        clip.loop(Clip.LOOP_CONTINUOUSLY);
+//        clip.start();
+        pack();     // Pack the UI components
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // Window closing behavior
+        setTitle("Sudoku");
+        setVisible(true);
+    }
 
-       pack();     // Pack the UI components
-       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // Window closing behavior
-       setTitle("Sudoku");
-       setVisible(true);
-   }
+    // Method to play background music
+//    private Clip bgclip;
+//    public void playBackgroundMusic(String filePath) {
+//        try {
+//            File audioFile = new File(filePath);
+//            if(!audioFile.exists()){
+//                throw new RuntimeException("Audio file not found: " + filePath);
+//            }
+//            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+//            Clip bgclip = AudioSystem.getClip();
+//            bgclip.open(audioStream);
+//            bgclip.loop(Clip.LOOP_CONTINUOUSLY); // Loop the background music
+//            bgclip.start();
+//        } catch (Exception ex) {
+//            System.out.println("Error playing background music: " + ex.getMessage());
+//        }
+//    }
 
-   // Method to play background music
-   private void playBackgroundMusic(String filePath) {
-       try {
-           File audioFile = new File(filePath);
-           AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-           Clip clip = AudioSystem.getClip();
-           clip.open(audioStream);
-           clip.loop(Clip.LOOP_CONTINUOUSLY); // Loop the background music
-       } catch (Exception ex) {
-           System.out.println("Error playing background music: " + ex.getMessage());
-       }
-   }
+//    public void stopBackgroundMusic(){
+//        if(clip != null && clip.isRunning()){
+//            clip.stop();
+//            clip = null;
+//        }
+//    }
 
-   // Method to play the "Win" sound effect
-   public void playWinSound() {
-       playSoundEffect("C:\\Users\\FARIS\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\SOUND\\Menang.wav");
-   }
+    // Method to play any sound effect (e.g., Win or Lose)
+//    public void playSoundEffect(String filePath) {
+//        try {
+//            File audioFile = new File(filePath);
+//            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+//            Clip clip = AudioSystem.getClip();
+//            clip.open(audioStream);
+//            clip.start();  // Play the sound effect
+//        } catch (Exception ex) {
+//            System.out.println("Error playing sound effect: " + ex.getMessage());
+//        }
+//    }
 
-   // Method to play the "Lose" sound effect
-   public void playLoseSound() {
-       playSoundEffect("C:\\Users\\FARIS\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\SOUND\\Kalah.wav");
-   }
-
-   // Method to play any sound effect (e.g., Win or Lose)
-   private void playSoundEffect(String filePath) {
-       try {
-           File audioFile = new File(filePath);
-           AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-           Clip clip = AudioSystem.getClip();
-           clip.open(audioStream);
-           clip.start();  // Play the sound effect
-       } catch (Exception ex) {
-           System.out.println("Error playing sound effect: " + ex.getMessage());
-       }
-   }
-
-   // Main entry method
-   public static void main(String[] args) {
-       // Run the constructor of "Sudoku.SudokuMain"
-       System.out.println("Sudoku coy!");
-       SwingUtilities.invokeLater(SudokuMain::new);
-   }
+    // Main entry method
+    public static void main(String[] args) throws LineUnavailableException, IOException {
+        // Run the constructor of "Sudoku.SudokuMain"
+        System.out.println("Sudoku coy!");
+        SudokuMain game = new SudokuMain();
+    }
 }
