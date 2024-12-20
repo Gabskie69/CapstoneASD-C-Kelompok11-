@@ -1,12 +1,12 @@
 /**
-* ES234317-Algorithm and Data Structures
-* Semester Ganjil, 2024/2025
-* Group Capstone Project
-* Group #11
-* 1 - 5026231036 - Shafly Hidayatullah
-* 2 - 5026231071 - Aryabima Kurnia Pratama Santoso
-* 3 - 5026231189 - Gabriel Hadi Melvanto Sihaloho
-*/
+ * ES234317-Algorithm and Data Structures
+ * Semester Ganjil, 2024/2025
+ * Group Capstone Project
+ * Group #11
+ * 1 - 5026231036 - Shafly Hidayatullah
+ * 2 - 5026231071 - Aryabima Kurnia Pratama Santoso
+ * 3 - 5026231189 - Gabriel Hadi Melvanto Sihaloho
+ */
 package Sudoku;
 import java.util.Random;
 
@@ -132,7 +132,7 @@ public class Puzzle {
         }
     }
     public enum Difficulty {
-        EASY(1), MEDIUM(1), HARD(1);
+        EASY(9), MEDIUM(12), HARD(15);
 
         private final int blanks;
 
