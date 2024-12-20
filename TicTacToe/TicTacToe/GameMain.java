@@ -1,4 +1,16 @@
+/**
+ * ES234317-Algorithm and Data Structures
+ * Semester Ganjil, 2024/2025
+ * Group Capstone Project
+ * Group #11
+ * 1 - 5026231036 - Shafly Hidayatullah
+ * 2 - 5026231071 - Aryabima Kurnia Pratama Santoso
+ * 3 - 5026231189 - Gabriel Hadi Melvanto Sihaloho
+ */
+
 package TicTacToe;
+
+import Sudoku.Sound;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -28,13 +40,15 @@ public class GameMain extends JPanel {
     private Seed currentPlayer;  // the current player
     private JLabel statusBar;    // for displaying status message
     private JLabel logoLabel;    // Label to display logo
-    private boolean vsComputer = true; // Flag for playing against computer
+    private boolean vsComputer;  // Flag for game mode
 
     // Attribute for background music
     private Clip backgroundClip;
 
     /** Constructor to setup the UI and game components */
-    public GameMain() {
+    public GameMain(boolean vsComputer) {
+        this.vsComputer = vsComputer;
+
         // This JPanel fires MouseEvent
         super.addMouseListener(new MouseAdapter() {
             @Override
@@ -52,11 +66,20 @@ public class GameMain extends JPanel {
                         currentState = board.stepGame(currentPlayer, row, col);
                         // Play appropriate sound clip
                         if (currentState == State.PLAYING) {
-                            SoundEffect.EAT_FOOD.play();
+                            SoundEffect.KLIK.play();
                         } else {
-                            SoundEffect.EXPLODE.play();
+                            SoundEffect.DRAW.play();
                         }
                         repaint();
+                        if(currentState == State.CROSS_WON){
+                            SoundEffect.WIN.play();
+                        }
+                        else if(currentState == State.NOUGHT_WON){
+                            SoundEffect.WIN.play();
+                        }
+                        else if(currentState == State.DRAW){
+                            SoundEffect.DRAW.play();
+                        }
 
                         if (currentState == State.PLAYING && vsComputer && currentPlayer == Seed.CROSS) {
                             computerMove(); // Computer makes its move
@@ -66,7 +89,7 @@ public class GameMain extends JPanel {
                         }
                     }
                 } else {
-                    SoundEffect.EXPLODE.play();       // game over
+                    SoundEffect.DRAW.play();       // game over
                     newGame();  // restart the game
                 }
                 // Refresh the drawing canvas
@@ -75,7 +98,7 @@ public class GameMain extends JPanel {
         });
 
         // Setup the logo label
-        ImageIcon logoIcon = new ImageIcon("TicTacToe/logo.png");
+        ImageIcon logoIcon = new ImageIcon();
         logoLabel = new JLabel(logoIcon);
         logoLabel.setHorizontalAlignment(JLabel.CENTER);  // Center the logo
 
@@ -100,7 +123,7 @@ public class GameMain extends JPanel {
         newGame();
 
         // Play background music
-        playBackgroundMusic("C:\\Users\\FARIS\\Documents\\CapstoneASD-C-Kelompok11-\\TicTacToe\\TicTacToe\\Backsound TTT.wav");
+        playBackgroundMusic("C:\\Users\\Gabe's Laptop\\Documents\\CapstoneASD-C-Kelompok11-\\TicTacToe\\TicTacToe\\COMEDY MUSIC BACKGROUND INSTRUMENTAL NO COPYRIGHT BACKGROUND MUSIC.wav");
     }
 
     /** Initialize the game (run once) */
@@ -168,6 +191,7 @@ public class GameMain extends JPanel {
         } else if (currentState == State.DRAW) {
             statusBar.setForeground(Color.RED);
             statusBar.setText("It's a Draw! Click to play again.");
+            SoundEffect.DRAW.play();
         } else if (currentState == State.CROSS_WON) {
             statusBar.setForeground(Color.RED);
             statusBar.setText("'X' Won! Click to play again.");
@@ -179,12 +203,20 @@ public class GameMain extends JPanel {
 
     /** The entry "main" method */
     public static void main(String[] args) {
+        // Show mode selection dialog
+        String[] options = { "Vs Computer", "Vs Friends" };
+        ImageIcon image = new ImageIcon("C:\\Users\\Gabe's Laptop\\Documents\\CapstoneASD-C-Kelompok11-\\TicTacToe\\TicTacToe\\WhatsApp Image 2024-12-20 at 01.56.25_1b1b28b4.jpg");
+        int choice = JOptionPane.showOptionDialog(null, "Choose Game Mode:", TITLE,
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, image, options, options[0]);
+
+        boolean vsComputer = (choice == 0); // If "Vs Computer" is chosen
+
         // Run GUI construction codes in Event-Dispatching thread for thread safety
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 JFrame frame = new JFrame(TITLE);
                 // Set the content-pane of the JFrame to an instance of main JPanel
-                frame.setContentPane(new GameMain());
+                frame.setContentPane(new GameMain(vsComputer));
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setLocationRelativeTo(null); // center the application window

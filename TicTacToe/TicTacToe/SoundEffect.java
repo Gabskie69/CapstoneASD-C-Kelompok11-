@@ -1,3 +1,12 @@
+/**
+ * ES234317-Algorithm and Data Structures
+ * Semester Ganjil, 2024/2025
+ * Group Capstone Project
+ * Group #11
+ * 1 - 5026231036 - Shafly Hidayatullah
+ * 2 - 5026231071 - Aryabima Kurnia Pratama Santoso
+ * 3 - 5026231189 - Gabriel Hadi Melvanto Sihaloho
+ */
 package TicTacToe;
 
 import java.io.IOException;
@@ -20,8 +29,9 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * For Eclipse, place the audio file under "src", which will be copied into "bin".
  */
 public enum SoundEffect {
-    EAT_FOOD("TicTacToe/Soundklik.wav"),
-    EXPLODE("TicTacToe/SoundMenang.wav");
+    KLIK("TicTacToe/Soundklik.wav"),
+    DRAW("TicTacToe/Kalah.wav"),
+    WIN("TicTacToe/SoundMenang.wav");
 
     /** Nested enumeration for specifying volume */
     public static enum Volume {
