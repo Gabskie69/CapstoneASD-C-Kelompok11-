@@ -1,24 +1,24 @@
 /**
-* ES234317-Algorithm and Data Structures
-* Semester Ganjil, 2024/2025
-* Group Capstone Project
-* Group #11
-* 1 - 5026231036 - Shafly Hidayatullah
-* 2 - 5026231071 - Aryabima Kurnia Pratama Santoso
-* 3 - 5026231189 - Gabriel Hadi Melvanto Sihaloho
-*/
+ * ES234317-Algorithm and Data Structures
+ * Semester Ganjil, 2024/2025
+ * Group Capstone Project
+ * Group #11
+ * 1 - 5026231036 - Shafly Hidayatullah
+ * 2 - 5026231071 - Aryabima Kurnia Pratama Santoso
+ * 3 - 5026231189 - Gabriel Hadi Melvanto Sihaloho
+ */
 package Sudoku;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.*;
 import javax.swing.*;
 public class GameBoardPanel extends JPanel{
-  
     private static final long serialVersionUID = 1L;  // to prevent serial warning
 
     // Define named constants for UI sizes
@@ -146,43 +146,33 @@ public class GameBoardPanel extends JPanel{
                 mainFrame.sound.stopBackgroundMusic();
                 mainFrame.gameTimer.stop();
                 mainFrame.sound.playSoundEffect("C:\\Users\\Gabe's Laptop\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\Menang.wav");
-//                File file = new File("C:\\Users\\Gabe's Laptop\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\Menang.wav");
-//                AudioInputStream audioStream =null;
-//                try {
-//                    audioStream = AudioSystem.getAudioInputStream(file);
-//                } catch (UnsupportedAudioFileException f) {
-//                    throw new RuntimeException(f);
-//                } catch (IOException f){
-//                    throw new RuntimeException(f);
-//                }
-//                Clip clip = null;
-//                try{
-//                    clip =AudioSystem.getClip();
-//                }catch(LineUnavailableException f){
-//                    throw new RuntimeException(f);
-//                }
-//                try {
-//                    clip.open(audioStream);
-//                } catch (LineUnavailableException ex) {
-//                    throw new RuntimeException(ex);
-//                } catch (IOException ex) {
-//                    throw new RuntimeException(ex);
-//                }
-//                clip.start();
-//                mainFrame.playSoundEffect("C:\\Users\\Gabe's Laptop\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\Menang.wav");
+
+                JPanel congratsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                ImageIcon iconWin = new ImageIcon(getClass().getResource("iconwin.png"));
+
+                JLabel winLabel = new JLabel(iconWin);
+
+                JLabel textLabel = new JLabel("<html><h1>Congratulations!</h1><p>You've solved the puzzle!</p></html>");
+                textLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+                congratsPanel.add(winLabel);
+                congratsPanel.add(textLabel);
                 int option = JOptionPane.showConfirmDialog(
                         GameBoardPanel.this,
-                        "Congratulations! You've solved the puzzle!\nWould you like to start a new game?",
+                        congratsPanel,
                         "Sudoku.Puzzle Solved!",
-                        JOptionPane.YES_NO_OPTION
-
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.PLAIN_MESSAGE
                 );
 
-//                // Method to play the "Lose" sound effect
-//                public void playLoseSound() {
-//                    playSoundEffect("C:/Users/Gabe's Laptop/Downloads/Kalah.wav");
-//                }
-
+                // Method to play the "Lose" sound effect
+                URL resource = getClass().getResource("iconwin.png");
+                if (resource == null) {
+                    System.out.println("File iconwin.png tidak ditemukan. Periksa path dan struktur folder.");
+                } else {
+                    System.out.println("Path ditemukan: " + resource.toString());
+                    iconWin = new ImageIcon(resource);
+                }
                 // If the user chooses "Yes", reset the game
                 if (option == JOptionPane.YES_OPTION) {
                     sound.stopBackgroundMusic();
