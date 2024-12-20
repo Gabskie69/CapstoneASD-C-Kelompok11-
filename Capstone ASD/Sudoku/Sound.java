@@ -17,16 +17,16 @@ public class Sound{
 
     private Clip backgroundClip; // Clip for background music
 
-    // Method to play background music
+    // Method memulai backsound musik
     public void playBackgroundMusic(String filePath) {
         try {
-            // Stop and close the current clip if it's running
+            // stop backsound musik
             if (backgroundClip != null) {
                 backgroundClip.stop();
                 backgroundClip.close();
             }
 
-            // Initialize a new clip
+            // inisiasi audio clip
             File audioFile = new File(filePath);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
             backgroundClip = AudioSystem.getClip();
@@ -38,7 +38,7 @@ public class Sound{
         }
     }
 
-    // Method to stop background music
+    // Method stop backsound musik
     public void stopBackgroundMusic() {
         if (backgroundClip != null && backgroundClip.isRunning()) {
             backgroundClip.stop();
@@ -47,7 +47,7 @@ public class Sound{
         }
     }
 
-    // Method to play sound effects
+    // Method play sound effects
     public void playSoundEffect(String filePath) {
         try {
             File audioFile = new File(filePath);
