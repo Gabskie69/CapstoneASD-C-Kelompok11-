@@ -1,12 +1,12 @@
 /**
-* ES234317-Algorithm and Data Structures
-* Semester Ganjil, 2024/2025
-* Group Capstone Project
-* Group #11
-* 1 - 5026231036 - Shafly Hidayatullah
-* 2 - 5026231071 - Aryabima Kurnia Pratama Santoso
-* 3 - 5026231189 - Gabriel Hadi Melvanto Sihaloho
-*/
+ * ES234317-Algorithm and Data Structures
+ * Semester Ganjil, 2024/2025
+ * Group Capstone Project
+ * Group #11
+ * 1 - 5026231036 - Shafly Hidayatullah
+ * 2 - 5026231071 - Aryabima Kurnia Pratama Santoso
+ * 3 - 5026231189 - Gabriel Hadi Melvanto Sihaloho
+ */
 package Sudoku;
 
 import javax.sound.sampled.*;
@@ -63,68 +63,11 @@ public class SudokuMain extends JFrame {
         gameTimer.start();
         sound.playBackgroundMusic("C:\\Users\\Gabe's Laptop\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\Backsound.wav");
 
-//        // Play background music when the game starts
-//        File file = new File("C:\\Users\\Gabe's Laptop\\Documents\\CapstoneASD-C-Kelompok11-\\Capstone ASD\\Sudoku\\Backsound.wav");
-//        AudioInputStream audioStream =null;
-//        try {
-//            audioStream = AudioSystem.getAudioInputStream(file);
-//        } catch (UnsupportedAudioFileException e) {
-//            throw new RuntimeException(e);
-//        } catch (IOException e){
-//            throw new RuntimeException(e);
-//        }
-//        Clip clip = null;
-//        try{
-//            clip =AudioSystem.getClip();
-//        }catch(LineUnavailableException e){
-//            throw new RuntimeException(e);
-//        }
-//        clip.open(audioStream);
-//        clip.loop(Clip.LOOP_CONTINUOUSLY);
-//        clip.start();
         pack();     // Pack the UI components
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // Window closing behavior
         setTitle("Sudoku");
         setVisible(true);
     }
-
-    // Method to play background music
-//    private Clip bgclip;
-//    public void playBackgroundMusic(String filePath) {
-//        try {
-//            File audioFile = new File(filePath);
-//            if(!audioFile.exists()){
-//                throw new RuntimeException("Audio file not found: " + filePath);
-//            }
-//            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-//            Clip bgclip = AudioSystem.getClip();
-//            bgclip.open(audioStream);
-//            bgclip.loop(Clip.LOOP_CONTINUOUSLY); // Loop the background music
-//            bgclip.start();
-//        } catch (Exception ex) {
-//            System.out.println("Error playing background music: " + ex.getMessage());
-//        }
-//    }
-
-//    public void stopBackgroundMusic(){
-//        if(clip != null && clip.isRunning()){
-//            clip.stop();
-//            clip = null;
-//        }
-//    }
-
-    // Method to play any sound effect (e.g., Win or Lose)
-//    public void playSoundEffect(String filePath) {
-//        try {
-//            File audioFile = new File(filePath);
-//            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-//            Clip clip = AudioSystem.getClip();
-//            clip.open(audioStream);
-//            clip.start();  // Play the sound effect
-//        } catch (Exception ex) {
-//            System.out.println("Error playing sound effect: " + ex.getMessage());
-//        }
-//    }
 
     // Main entry method
     public static void main(String[] args) throws LineUnavailableException, IOException {
