@@ -7,6 +7,7 @@
 * 2 - 5026231071 - Aryabima Kurnia Pratama Santoso
 * 3 - 5026231189 - Gabriel Hadi Melvanto Sihaloho
 */
+
 package Sudoku;
 
 public enum CellStatus {

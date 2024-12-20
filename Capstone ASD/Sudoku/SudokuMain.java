@@ -12,9 +12,7 @@ package Sudoku;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 
 public class SudokuMain extends JFrame {
     private static final long serialVersionUID = 1L;
